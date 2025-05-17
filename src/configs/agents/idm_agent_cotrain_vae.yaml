@@ -1,0 +1,85 @@
+_target_: agents.idm_agent_cotrain.IDM_Agent
+_recursive_: false
+
+device: ${device}
+### same as idm_latent_policy.yaml
+latent_policy:
+  _target_: agents.idm_latent_policy.IDM_Latent_Policy_Agent
+  _recursive_: false
+
+  model:
+    _target_: agents.idm_latent_policy.IDM_Latent_Policy
+    _recursive_: false
+
+    visual_input: False
+    device: ${device}
+
+    input_dim: ${obs_dim}
+
+    diffusion_opt:
+      beta_max: 0.3
+      interval: 50
+      device: ${device}
+      ema: 0.9
+
+    obs_encoder:
+      _target_: torch.nn.Identity
+      output_dim: ${obs_dim}
+
+
+  trainset: ${trainset}
+  valset: ${valset}
+
+  optimization:
+    _target_: torch.optim.Adam
+    lr: 1e-4
+    weight_decay: 0
+
+  train_batch_size: ${train_batch_size}
+  val_batch_size: ${val_batch_size}
+  num_workers: ${num_workers}
+  epoch: ${epoch}
+  device: ${device}
+  scale_data: False
+  eval_every_n_epochs: ${eval_every_n_epochs}
+
+
+###load action decoder
+idm_model:
+  _target_: agents.idm_vae_cotrain.IDM_Cotrain_Agent
+  _recursive_: false
+
+  model:
+    _target_: agents.idm_vae_cotrain.IDM_Cotrain_Policy
+    _recursive_: false
+    device: ${device}
+    idm_model:
+      _target_: agents.models.idm.idm_model.VariationalAutoEncoder
+      input_dim: ${obs_dim}
+      hidden_dims: ${hidden_dims}
+      latent_dim: ${vae_latent_dim}
+      action_dim: ${action_dim}
+      mask_dim: ${obs_mask_dim}
+      backbone: ${backbone}
+
+  kl_factor: ${kl_factor}
+  obs_mask_dim: ${obs_mask_dim}
+  trainset: ${trainset}
+  valset: ${valset}
+  totalset: ${totalset}
+
+  optimization:
+    _target_: torch.optim.AdamW
+    lr: 3e-4
+    weight_decay: 0.01
+
+  train_batch_size: ${train_batch_size}
+  val_batch_size: ${val_batch_size}
+  num_workers: ${num_workers}
+  epoch: ${epoch}
+  device: ${device}
+  scale_data: False
+  eval_every_n_epochs: ${decoder_eval_every_n_epochs}
+  action_loss_factor: ${action_loss_factor}
+
+

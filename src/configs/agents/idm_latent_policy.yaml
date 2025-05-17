@@ -1,0 +1,37 @@
+_target_: agents.idm_latent_policy.IDM_Latent_Policy_Agent
+_recursive_: false
+
+model:
+  _target_: agents.idm_latent_policy.IDM_Latent_Policy
+  _recursive_: false
+
+  visual_input: False
+  device: ${device}
+
+  input_dim: ${obs_dim}
+
+  diffusion_opt:
+    beta_max: 0.3
+    interval: 50
+    device: ${device}
+    ema: 0.9
+
+  obs_encoder:
+    _target_: torch.nn.Identity
+    output_dim: ${obs_dim}
+
+trainset: ${trainset}
+valset: ${valset}
+
+optimization:
+  _target_: torch.optim.AdamW
+  lr: 1e-4
+  weight_decay: 0
+
+train_batch_size: ${train_batch_size}
+val_batch_size: ${val_batch_size}
+num_workers: ${num_workers}
+epoch: ${epoch}
+device: ${device}
+scale_data: False
+eval_every_n_epochs: ${eval_every_n_epochs}

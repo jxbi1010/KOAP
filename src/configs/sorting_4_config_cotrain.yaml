@@ -1,0 +1,135 @@
+defaults:
+  - agents: bc_agent
+
+method: ''
+agent_name: bc
+dynamics_model_name: ''
+log_dir: logs/sorting4/
+
+seed: 42
+action_data_ratio: 10
+train_data_path: environments/dataset/data/sorting/4_boxes_train_files.pkl
+eval_data_path: environments/dataset/data/sorting/4_boxes_eval_files.pkl
+num_boxes: 4
+
+# insert wandb here
+wandb:
+  entity: bijianxin292430887
+  project: d3il
+
+group: sorting_${agent_name}
+
+hydra:
+  run:
+    dir: ${log_dir}/runs/${agent_name}/
+  sweep:
+    dir: ${log_dir}/sweeps/${agent_name}/${now:%Y-%m-%d}/${now:%H-%M-%S}
+    subdir: ${hydra.job.override_dirname}
+
+
+
+backbone: 'mlp'
+# Action Decoder Network
+hidden_dims: [256]
+# FSQ
+fsq_levels: [6,6,6,6]
+fsq_latent_dim: 4
+# AE/VQ-VAE
+ae_latent_dim: 4
+codebook_size: 256
+#VAE
+vae_latent_dim: 4
+kl_factor: 0.0001
+#Koopman
+kpm_latent_dim: 256
+target_k: -1
+kpm_latent_dim_nl: 4
+#Cotrain
+action_loss_factor: 0.01
+
+# Training
+train_batch_size: 256
+val_batch_size: 256
+num_workers: 4
+device: 'cuda'
+epoch: 400
+eval_every_n_epochs: 5
+decoder_eval_every_n_epochs: 5
+scale_data: False
+# use eval dataset to normalize data
+scale_set: True
+
+# Environment
+obs_dim: 16
+action_dim: 2
+max_len_data: 600
+window_size: 1
+
+obs_mask_dim: [2]
+robot_state_dim: 4
+# Dataset
+trainset:
+  _target_: environments.dataset.sorting_dataset.Sorting_Dataset
+  data_directory: ${train_data_path}
+  obs_dim: ${obs_dim}
+  action_dim: ${action_dim}
+  max_len_data: ${max_len_data}
+  window_size: ${window_size}
+  num_boxes: ${num_boxes}
+  action_data_ratio: ${action_data_ratio}
+  obs_data_ratio: 25
+  seed: ${seed}
+  only_label_data: False
+  #######
+
+finetuneset:
+  _target_: environments.dataset.sorting_dataset.Sorting_Dataset
+  data_directory: ${train_data_path}
+  obs_dim: ${obs_dim}
+  action_dim: ${action_dim}
+  max_len_data: ${max_len_data}
+  window_size: ${window_size}
+  action_data_ratio: ${action_data_ratio}
+  obs_data_ratio: 25
+  seed: ${seed}
+  only_label_data: True
+
+
+valset:
+  _target_: environments.dataset.sorting_dataset.Sorting_Dataset
+  data_directory: ${eval_data_path}
+  obs_dim: ${obs_dim}
+  action_dim: ${action_dim}
+  max_len_data: ${max_len_data}
+  window_size: ${window_size}
+  num_boxes: ${num_boxes}
+  action_data_ratio: 100
+  only_label_data: True
+  seed: ${seed}
+
+
+
+totalset:
+  _target_: environments.dataset.sorting_dataset.Sorting_Dataset
+  data_directory: ${train_data_path}
+  obs_dim: ${obs_dim}
+  action_dim: ${action_dim}
+  max_len_data: ${max_len_data}
+  window_size: ${window_size}
+  num_boxes: ${num_boxes}
+  action_data_ratio: 100
+  seed: ${seed}
+
+
+# Simulation
+simulation:
+  _target_: simulation.sorting_sim.Sorting_Sim
+  seed: ${seed}
+  device: ${device}
+  render: False
+  n_cores: 10
+  n_contexts: 20
+  n_trajectories_per_context: 3
+  max_steps_per_episode: 700
+  if_vision: False
+  num_box: ${num_boxes}

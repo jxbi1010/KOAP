@@ -1,0 +1,35 @@
+_target_: agents.idm_koopman_cotrain.IDM_Cotrain_Agent
+_recursive_: false
+
+model:
+  _target_: agents.idm_koopman_cotrain.IDM_Cotrain_Policy
+  _recursive_: false
+  device: ${device}
+  idm_model:
+    _target_: agents.models.idm.idm_model.Single_Koopman_AutoEncoder_Cotrain
+    input_dim: ${obs_dim}
+    action_dim: ${action_dim}
+    hidden_dims: ${hidden_dims}
+    latent_dim: ${kpm_latent_dim}
+    mask_dim: ${obs_mask_dim}
+    backbone: ${backbone}
+    target_k: ${target_k}
+
+obs_mask_dim: ${obs_mask_dim}
+trainset: ${trainset}
+valset: ${valset}
+totalset: ${totalset}
+
+optimization:
+  _target_: torch.optim.AdamW
+  lr: 3e-4
+  weight_decay: 0.01
+
+train_batch_size: ${train_batch_size}
+val_batch_size: ${val_batch_size}
+num_workers: ${num_workers}
+epoch: ${epoch}
+device: ${device}
+scale_data: False
+eval_every_n_epochs: ${decoder_eval_every_n_epochs}
+action_loss_factor: ${action_loss_factor}

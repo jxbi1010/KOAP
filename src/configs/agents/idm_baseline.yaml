@@ -1,0 +1,36 @@
+_target_: agents.idm_baseline.IDM_Baseline_Agent
+_recursive_: false
+
+model:
+  _target_: agents.idm_baseline.IDM_Baseline
+  _recursive_: false
+
+  device: ${device}
+
+  model:
+    _target_: agents.models.idm.idm_model.BaselineModel
+    input_dim: ${obs_dim}
+    hidden_dims: ${hidden_dims}
+    action_dim: ${action_dim}
+    mask_dim: ${obs_mask_dim}
+    backbone: ${backbone}
+
+obs_mask_dim: ${obs_mask_dim}
+
+trainset: ${trainset}
+valset: ${valset}
+totalset: ${totalset}
+
+optimization:
+  _target_: torch.optim.AdamW
+  lr: 1e-3
+  weight_decay: 0.01
+
+train_batch_size: ${train_batch_size}
+val_batch_size: ${val_batch_size}
+num_workers: ${num_workers}
+epoch: ${epoch}
+device: ${device}
+scale_data: False
+scale_set: ${scale_set}
+eval_every_n_epochs: ${eval_every_n_epochs}

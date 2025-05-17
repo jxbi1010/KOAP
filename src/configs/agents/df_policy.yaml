@@ -1,0 +1,35 @@
+_target_: agents.df_policy.DF_Policy_Agent
+_recursive_: false
+
+model:
+  _target_: agents.df_policy.DF_Policy
+  _recursive_: false
+
+  input_dim: ${obs_dim}
+  act_dim: ${action_dim}
+
+  diffusion_opt:
+    beta_max: 0.3
+    interval: 50
+    device: ${device}
+    ema: 0.9
+
+
+trainset: ${trainset}
+valset: ${valset}
+totalset: ${totalset}
+
+obs_mask_dim: ${obs_mask_dim}
+
+optimization:
+  _target_: torch.optim.AdamW
+  lr: 1e-4
+  weight_decay: 0.01
+
+train_batch_size: ${train_batch_size}
+val_batch_size: ${val_batch_size}
+num_workers: ${num_workers}
+epoch: 200
+device: ${device}
+scale_data: False
+eval_every_n_epochs: ${eval_every_n_epochs}
