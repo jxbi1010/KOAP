@@ -4,14 +4,15 @@
 
 
 [![pytorch](https://img.shields.io/badge/Python-PyTorch-orange.svg)](https://www.pytorch.org)
-[![License](https://img.shields.io/badge/License-MIT-green.svg)](https://github.com/yourusername/koap/blob/master/LICENSE)
+[![License](https://img.shields.io/badge/License-MIT-green.svg)](https://github.com/jxbi1010/KOAP/blob/master/LICENSE)
 [![arXiv](https://img.shields.io/badge/ArXiv-2410.07584-b31b1b.svg)](https://arxiv.org/abs/2410.07584)
+[![ICRA 2025](https://img.shields.io/badge/ICRA%202025-Accepted-purple.svg)](https://icra2025.org)
 
 This repo is the code implementation for the ICRA 2025 conference paper:
 <p align="center">&nbsp;<table><tr><td>
     <p align="center">
     <strong>
-        <a href="https://koap-2025.github.io">
+        <a href="https://arxiv.org/abs/2410.07584">
             Imitation Learning with Limited Actions via Diffusion Planners and Deep Koopman Controllers
         </a><br/>
     </strong>
