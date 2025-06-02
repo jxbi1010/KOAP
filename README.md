@@ -1,9 +1,6 @@
 # KOAP
 Implementation of ICRA 2025 paper: Imitation Learning with Limited Actions via Diffusion Planners and Deep Koopman Controllers
 
-Code is Ready!
-A Detailed User Manual is coming soon!
-
 ## Installation
 1. Install D3IL benchmark from `https://github.com/ALRhub/d3il` in `environments/d3il`.
 2. Follow `environments/d3il/README.md` to register gym environment. 
