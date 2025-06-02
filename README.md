@@ -2,7 +2,6 @@
   <h1 align="center">Imitation Learning with Limited Actions via Diffusion Planners and Deep Koopman Controllers</h1>
 </p>
 
----
 
 [![pytorch](https://img.shields.io/badge/Python-PyTorch-orange.svg)](https://www.pytorch.org)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](https://github.com/yourusername/koap/blob/master/LICENSE)
@@ -24,8 +23,6 @@ This repo is the code implementation for the ICRA 2025 conference paper:
 
 # 🧾 Introduction
 
----
-
 We present **KOAP**, a novel approach for imitation learning with limited actions that combines diffusion planners with Deep Koopman Controllers. 
 Our method addresses the challenge of learning robot action from action-free demonstrations, enabling effective policy learning from limited action-labeled expert demostrations.
 
@@ -42,10 +39,6 @@ With limited action data, an action decoder can be trained to decode executable 
 
 # 💻 Installation
 
----
-
-
-## Environment
 Install KOAP and D3IL Benchmark:
 ```bash
 # Clone KOAP
@@ -69,16 +62,13 @@ pip install vector-quantize-pytorch
 pip install -r requirements.txt
 ```
 
-## Assets
 Download the dataset to `environments/dataset/data/` following the D3IL benchmark instructions.
 ```bash
 # Generate observation dataset for training
 python create_small_dataset.py
 ```
 
-# 🛠️ Usage 
-
----
+# 🛠️ Usage
 
 To reproduce our experimental results, run the following commands:
 
@@ -94,21 +84,13 @@ Replace `<method>` with the specific baseline method you want to run.
 
 # 🙏 Acknowledgement
 
----
-
 **KOAP** is based on many open-source projects, including [D3IL](https://github.com/ALRhub/d3il) and various diffusion model implementations. We thank all these authors for their nicely open sourced code and their great contributions to the community.
 
-
-
 # 🏷️ License
-
----
 
 **KOAP** is licensed under the MIT license. See the [LICENSE](LICENSE) file for details.
 
 # 📝 Citation
-
----
 
 If you find our work useful, please consider citing:
 ```bibtex
